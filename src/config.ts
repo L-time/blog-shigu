@@ -20,11 +20,20 @@ export const siteConfig: SiteConfig = {
 		src: "assets/images/banner.jpg", // Relative to the /src directory. Relative to the /public directory if it starts with '/'
 		position: "center", // Equivalent to object-position, only supports 'top', 'center', 'bottom'. 'center' by default
 		credit: {
-			enable: false, // Display the credit text of the banner image
-			text: "欢迎来到时孤的博客", // Credit text to be displayed
-			url: "", // (Optional) URL link to the original artwork or artist's page
+			enable: true, // Display the credit text of the banner image
+			text: "okamiriru", // Credit text to be displayed
+			url: "https://x.com/ookamiriru", // (Optional) URL link to the original artwork or artist's page
 		},
 	},
+    // background: {    //源项目不存在背景，在这里预留
+    //     enable: false, // Enable background image
+    //     src: "https://eopageapi.2x.nz/pic?img=ua", // Background image URL (supports HTTPS)
+    //     position: "center", // Background position: 'top', 'center', 'bottom'
+    //     size: "cover", // Background size: 'cover', 'contain', 'auto'
+    //     repeat: "no-repeat", // Background repeat: 'no-repeat', 'repeat', 'repeat-x', 'repeat-y'
+    //     attachment: "fixed", // Background attachment: 'fixed', 'scroll', 'local'
+    //     opacity: 0.5, // Background opacity (0-1)
+    // },
 	toc: {
 		enable: true, // Display the table of contents on the right side of the post
 		depth: 2, // Maximum heading depth to show in the table, from 1 to 3
@@ -74,6 +83,16 @@ export const profileConfig: ProfileConfig = {
 			icon: "fa6-brands:github",
 			url: "https://github.com/shigu666",
 		},
+        {
+            name: "QQ",
+            icon: "fa6-brands:qq",
+            url: "https://qm.qq.com/q/DqCWkmyAg0",
+        },
+        {
+            name: "哔哩哔哩",
+            icon: "fa6-brands:bilibili",
+            url: "https://space.bilibili.com/1683333823",
+        },
 	],
 };
 
