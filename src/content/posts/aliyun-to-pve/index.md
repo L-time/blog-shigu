@@ -118,4 +118,4 @@ qemu-img convert -f <原格式> -O <目标格式> <输入镜像> <输出镜像>
 
 然后就可以正常进入系统登录了
 
-登录后将软件源从`阿里云内网源`改为自己常用的源，然后就可以愉快的 `apt update`啦，再`apt install qemu-guset-agent -y`把agent装上，完事。
+登录后将软件源从`阿里云内网源`改为自己常用的源，然后就可以愉快的 `apt update`啦，再`apt install qemu-guest-agent -y`把agent装上，完事。
