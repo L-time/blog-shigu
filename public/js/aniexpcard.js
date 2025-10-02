@@ -17,16 +17,24 @@ function handleCardAction() {
         }
     })
         .then(response => {
-            if (!response.ok) {
+            // 对于404状态码，继续解析JSON以获取详细信息
+            if (!response.ok && response.status !== 404) {
                 throw new Error(`HTTP错误: ${response.status}`);
             }
             return response.json();
         })
         .then(data => {
-            const { status, data: redirectUrl, msg } = data;
+            let {status, data: redirectUrl, msg} = data;
 
-            // 步骤3: 创建并显示弹窗
-            createFuwariModal(status, redirectUrl, msg);
+            // 当status为404时，覆盖msg字段，并调整模态框参数
+            if (status === 404) {
+                msg = '该卡片可能不存在，请通过左侧联系我';
+                redirectUrl = null;
+            }
+
+            // 步骤3: 根据状态创建并显示弹窗
+            const modalStatus = status === 404 ? 'error' : status;
+            createFuwariModal(modalStatus, redirectUrl, msg);
         })
         .catch(error => {
             console.error('获取失败:', error);
@@ -45,16 +53,17 @@ function createFuwariModal(status, redirectUrl, msg) {
     // 创建弹窗HTML结构
     const modalHtml = `
         <div class="fuwari-modal" style="display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.5);">
-            <div class="fuwari-modal-content" style="background-color: var(--fuwari-background); margin: 15% auto; padding: 2rem; border-radius: 0.75rem; width: 80%; max-width: 500px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
-                <h3 style="color: var(--fuwari-primary); margin-bottom: 1rem;">卡片状态: ${status}</h3>
-                <p style="color: var(--fuwari-text); margin-bottom: 1.5rem;">${msg || '无额外消息。'}</p>
-                <div class="fuwari-modal-actions" style="display: flex; justify-content: flex-end; gap: 1rem;">
-                    <button id="modal-cancel" class="fuwari-btn" style="background-color: var(--fuwari-secondary); color: var(--fuwari-text-inverse); border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">
-                        取消
-                    </button>
-                    ${redirectUrl ? `<button id="modal-confirm" class="fuwari-btn" style="background-color: var(--fuwari-primary); color: var(--fuwari-text-inverse); border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">
-                        跳转
-                    </button>` : ''}
+            <div class="pb-4 card-base onload-animation" style="background-color: rgb(  82, 58, 71 ); margin: 15% auto; padding: 2rem; border-radius: 0.75rem; width: 80%; max-width: 500px; box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);">
+                <div class="prose dark:prose-invert prose-base !max-w-none custom-md mt-2" data-pagefind-body="">
+                    <p class="overflow-hidden text-left whitespace-nowrap overflow-ellipsis" style="color: var(--fuwari-text); margin-bottom: 1.5rem;">${msg || '疑似忘记说了QwQ'}</p>
+                    <div class="fuwari-modal-actions" style="display: flex; justify-content: flex-end; gap: 1rem;">
+                        <button id="modal-cancel" class="btn-regular h-8 text-sm px-3 rounded-lg" style="background-color: rgb( 67, 46, 57 ); color: var(--fuwari-text-inverse); border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">
+                            关闭
+                        </button>
+                        ${redirectUrl ? `<button id="modal-confirm" class="btn-regular h-8 text-sm px-3 rounded-lg" style="background-color: rgb( 67, 46, 57 ); color: var(--fuwari-text-inverse); border: none; padding: 0.5rem 1rem; border-radius: 0.5rem; cursor: pointer;">
+                            确定
+                        </button>` : ''}
+                    </div>
                 </div>
             </div>
         </div>
