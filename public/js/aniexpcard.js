@@ -28,7 +28,7 @@ function handleCardAction() {
 
             // 当status为404时，覆盖msg字段，并调整模态框参数
             if (status === 404) {
-                msg = '该卡片可能不存在，请通过左侧联系我';
+                msg = '该卡片可能不存在，请通过页内联系我';
                 redirectUrl = null;
             }
 
